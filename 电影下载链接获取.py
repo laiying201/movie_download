@@ -9,6 +9,13 @@ import random
 import time
 import urllib.parse
 
+"""
+脚本运行环境:python 3.6
+需要pip安装的第三方库:beautifulsoup4,requests
+cmd执行命令:pip install beautifulsoup4
+            pip install requests
+"""
+
 class GetMovieDownloadLink(object):
     """爬取www.dysfz.cc的电影"""
     def __init__(self):
