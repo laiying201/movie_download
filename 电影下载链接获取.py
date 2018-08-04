@@ -9,13 +9,6 @@ import random
 import time
 import urllib.parse
 
-"""
-脚本运行环境:python 3.6
-需要pip安装的第三方库:beautifulsoup4,requests
-cmd执行命令:pip install beautifulsoup4
-            pip install requests
-"""
-
 class GetMovieDownloadLink(object):
     """爬取www.dysfz.cc的电影"""
     def __init__(self):
@@ -32,11 +25,14 @@ class GetMovieDownloadLink(object):
         for i in range(page):
             newest_page_url = 'http://www.dysfz.cc/%s?o=2' % (i)
             self.headers['Referer'] = self.referer_url
-            movie_titles, douban_scores, movie_detail_links = self.get_detail_page(newest_page_url)
+            movie_titles, douban_scores, movie_plots, movie_detail_links = self.get_detail_page(newest_page_url)
             for idx in range(len(movie_titles)):
                 if i == 1 and idx == 0:
                     continue
                 print(movie_titles[idx], douban_scores[idx])
+                print('剧情简介:')
+                print(movie_plots[idx])
+                print('\n---------资源列表---------\n')
                 self.get_detail_info(movie_detail_links[idx])
                 print('\n---------分割线---------\n')
 
@@ -52,17 +48,20 @@ class GetMovieDownloadLink(object):
         movie_titles = []
         douban_scores = []
         movie_detail_links = []
+        movie_plots = []
         for movie_detail in movie_list:
             movie_title = movie_detail.find('h2').get_text()
             try:
                 douban_score = movie_detail.find('span', class_='dbscore').get_text()
             except Exception as e:
                 douban_score = 'N/A'
+            movie_plot = movie_detail.find('div',class_='txt fr').get_text()
             movie_detail_link = movie_detail.find('h2').a.get('href')
             movie_titles.append(movie_title)
             douban_scores.append(douban_score)
+            movie_plots.append(movie_plot)
             movie_detail_links.append(movie_detail_link)
-        return movie_titles, douban_scores, movie_detail_links
+        return movie_titles, douban_scores,movie_plots, movie_detail_links
 
     def get_detail_info(self, detail_page):
         """电影详情页"""
@@ -90,9 +89,12 @@ class GetMovieDownloadLink(object):
             return
         encoding_words = urllib.parse.quote(keyword, encoding='utf-8')
         search_page = 'http://www.dysfz.cc/key/%s/' % (encoding_words)
-        movie_titles, douban_scores, movie_detail_links = self.get_detail_page(search_page)
+        movie_titles, douban_scores, movie_plots, movie_detail_links = self.get_detail_page(search_page)
         for i in range(len(movie_titles)):
             print(movie_titles[i], douban_scores[i])
+            print('剧情简介:')
+            print(movie_plots[i])
+            print('---------资源列表---------')
             self.get_detail_info(movie_detail_links[i])
             print('\n---------分割线---------\n')
 
