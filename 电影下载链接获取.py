@@ -101,7 +101,7 @@ class GetMovieDownloadLink(object):
             print('\n---------分割线---------\n')
 
     def choice_mod(self, mode=0, page=1, keyword=None):
-        # 根据模式获取最新电影，或是搜索电影
+        """根据模式获取最新电影，或是搜索电影"""
         if mode == 0:
             self.get_newest_movie_link(page)
         else:
