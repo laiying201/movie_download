@@ -29,7 +29,8 @@ class GetMovieDownloadLink(object):
             for idx in range(len(movie_titles)):
                 if i == 1 and idx == 0:
                     continue
-                print(movie_titles[idx], douban_scores[idx])
+                print(movie_titles[idx])
+                print(douban_scores[idx])
                 print('剧情简介:')
                 print(movie_plots[idx])
                 print('\n---------资源列表---------\n')
@@ -91,7 +92,8 @@ class GetMovieDownloadLink(object):
         search_page = 'http://www.dysfz.cc/key/%s/' % (encoding_words)
         movie_titles, douban_scores, movie_plots, movie_detail_links = self.get_detail_page(search_page)
         for i in range(len(movie_titles)):
-            print(movie_titles[i], douban_scores[i])
+            print(movie_titles[i])
+            print(douban_scores[i])
             print('剧情简介:')
             print(movie_plots[i])
             print('---------资源列表---------')
